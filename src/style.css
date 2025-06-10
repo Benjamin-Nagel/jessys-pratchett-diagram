@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+rect, circle, path, line {
+  transition: opacity 0.3s ease-in-out, stroke-width 0.3s ease-in-out, stroke 0.3s ease-in-out, fill 0.3s ease-in-out;
+}
+
+text {
+  font-family: sans-serif;
+  user-select: none;
+  fill: #333;
+  text-shadow:
+    -0.5px -0.5px 0 #fff,
+      0.5px -0.5px 0 #fff,
+    -0.5px  0.5px 0 #fff,
+      0.5px  0.5px 0 #fff;
+}
+
+.book-group text {
+  fill: #000; 
+}
+
+.genre-label {
+  fill: #444;
+  font-weight: bold;
+}
+
+.legend-content {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all; 
+}
+
+.legend-content.hidden-content {
+    opacity: 0;
+    transform: translateY(-10px); 
+    pointer-events: none; 
+}
+
+.legend-item {
+    cursor: pointer;
+}
+.legend text {
+    fill: black;
+    font-size: 14px; 
+}
+
+.tooltip {
+    pointer-events: none; 
+    z-index: 1000; 
+    text-align: left;
+    font-size: 0.875rem; 
+    line-height: 1.25rem; 
+    background-color: rgba(255, 255, 255, 0.95); 
+    border: 1px solid #ccc; 
+    padding: 8px; 
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    position: absolute; 
+    transition: opacity 0.2s;
+}
+.tooltip p {
+    margin: 0;
+    padding: 0;
+}
+.tooltip strong {
+    color: #333;
+}
+
+#controls-container label {
+    margin-right: 1.5rem; 
+    font-weight: 500;
+    color: #444;
+}
+#controls-container input[type="checkbox"] {
+    transform: scale(1.2); 
+    margin-right: 0.5rem;
+}
+
+
+.legend-item-group.highlighted-legend-item rect {
+    stroke-width: 2.5px;
+    stroke: #333; 
+}
+
+.legend-item-group.highlighted-legend-item text {
+    font-weight: bold;
+    fill: #000; 
+}
+
+#orientation-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); 
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 20px;
+    z-index: 1000; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    box-sizing: border-box;
+}
+
+#orientation-warning p {
+    margin-bottom: 10px;
+}
+
+.rotate-icon {
+    font-size: 3rem;
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    #orientation-warning {
+        display: flex; 
+    }
+
+    #chart,
+    #controls,
+    .explanation-section {
+        display: none !important; 
+    }
+}
+
+
+
+
+.link {
+    stroke-width: 1;
+}
+.link.book_serie { 
+    stroke-width: 2;
+}
+.link.highlighted {
+    stroke: red !important; 
+    stroke-width: 2.5 !important;
+}
+.node {
+    opacity: 1;
+}
+.node.faded {
+    opacity: 0.2;
+}
+.node circle, .node path, .node rect {
+    stroke: #fff;
+    stroke-width: 1.5;
+}
+.node.highlighted-border circle, .node.highlighted-border path, .node.highlighted-border rect {
+    stroke: black;
+    stroke-width: 3;
+}
+.label {
+    opacity: 1;
+}
+.label.faded {
+    opacity: 0.2;
+}

@@ -1,0 +1,54 @@
+name: 🐞 Bug Report or Feedback
+description: Report a problem you found or share helpful feedback (no technical knowledge needed).
+title: "[Bug/Feedback] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the Discworld Visualization project!  
+        This form is for non-technical users – just answer what you can 😊
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What’s the problem?
+      description: What did you expect to happen, and what actually happened?
+      placeholder: >-
+        Example: I clicked on a book, but nothing happened.  
+        I thought it would show the characters or more info.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: location
+    attributes:
+      label: Where did it happen?
+      description: Which part of the website had the issue?
+      options:
+        - label: Homepage
+        - label: Characters Graph
+        - label: Genres Diagram
+        - label: Original Conspiracy Map
+        - label: Other (please describe below)
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Can you show us?
+      description: If possible, drag and drop a screenshot here.
+      placeholder: Paste or upload an image...
+
+  - type: input
+    id: device
+    attributes:
+      label: What device are you using?
+      description: "Example: iPhone 13 with Safari, or Windows laptop with Chrome"
+      placeholder: Device and browser information
+
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything else?
+      description: Any other thoughts or suggestions you'd like to share?
+      placeholder: Optional

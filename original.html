@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Original 'Conspiracy' Diagram - Tribute to Jess of the Shire</title>
+
+    <link href="./src/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gradient-to-b from-indigo-50 to-white text-gray-800">
+    <nav class="bg-indigo-900 p-4 shadow-lg">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="/" class="text-white text-2xl font-bold">Discworld Tribute</a>
+        <div class="space-x-8">
+          <a
+            href="/original.html"
+            class="text-white hover:text-indigo-200 transition duration-300"
+            >Conspiracy Diagram</a
+          >
+          <a
+            href="/force-graph.html"
+            class="text-white hover:text-indigo-200 transition duration-300"
+            >Characters Network</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-indigo-900 mb-4">
+          Original 'Conspiracy' Diagram
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          An interactive visualization inspired by Jess of the Shire's iconic
+          Discworld diagram.
+        </p>
+      </header>
+
+      <div id="orientation-warning" class="hidden-on-landscape">
+        <p>
+          Please rotate your device to landscape mode for the best experience.
+        </p>
+        <p>This diagram is optimized for wider screens.</p>
+        <span class="rotate-icon">🔄</span>
+      </div>
+
+      <section class="mb-20">
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden p-4">
+          <div
+            class="mt-8 p-4 bg-gray-50 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                Navigation
+              </h3>
+              <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                <li>
+                  **Pan:** Click and drag the background to move the entire
+                  diagram.
+                </li>
+                <li>
+                  **Zoom:** Use your mouse scroll wheel to zoom in and out.
+                </li>
+                <li>
+                  **Reset View:** Click on an empty area of the background to
+                  reset any active highlight and return to the default view.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                Interaction
+              </h3>
+              <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                <li>
+                  **Hover:** Hover over a book or character node to see its
+                  details in a tooltip.
+                </li>
+                <li>
+                  **Click Nodes:** Click on a specific book or character node to
+                  highlight it and its direct connections (related books,
+                  characters, series, or genres).
+                </li>
+                <li>
+                  **Click Legend Items:** Click on an item in the character,
+                  series, or genre legends to highlight all associated nodes and
+                  links in the diagram.
+                </li>
+                <li>
+                  **Toggle Legends:** Use the `+`/`-` button next to legend
+                  titles to collapse or expand their content (feature to be
+                  implemented).
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">&nbsp;</h3>
+              <p class="text-sm text-gray-700"></p>
+            </div>
+          </div>
+
+          <svg id="chart" class="w-full h-[800px] block"></svg>
+        </div>
+      </section>
+
+      <footer
+        class="text-center text-gray-500 text-sm py-8 border-t border-gray-200"
+      >
+        <p>&copy; 2025 Discworld Tribute Project. All rights reserved.</p>
+        <p>
+          This is a non-commercial, fan-created tribute. Discworld and all
+          related characters and settings are the intellectual property of the
+          Estate of Sir Terry Pratchett.
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="./src/graphs/original/original.ts"></script>
+    <script type="module">
+      import { createGraph } from "./src/graphs/original/original.ts";
+      document.addEventListener("DOMContentLoaded", () => {
+        createGraph("#chart");
+      });
+    </script>
+  </body>
+</html>
