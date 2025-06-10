@@ -36,15 +36,22 @@ export function deactivateActiveHighlight(
 export function handleCharacterHoverOn(
   event: MouseEvent,
   character: RunningCharacter,
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
-    activeInformation: ActiveInformation,
-    currentInformation: CurrentInformation,
+  tooltip: d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any>,
+  activeInformation: ActiveInformation,
+  currentInformation: CurrentInformation
 ) {
   if (
     activeInformation.activeLegendType === null ||
-    (activeInformation.activeLegendType === "character" && activeInformation.activeCharachterId === character.id)
+    (activeInformation.activeLegendType === "character" &&
+      activeInformation.activeCharachterId === character.id)
   ) {
-    applyCharacterHighlight(character, true, false, activeInformation, currentInformation);
+    applyCharacterHighlight(
+      character,
+      true,
+      false,
+      activeInformation,
+      currentInformation
+    );
     let tooltipContent = `<strong>${character.name}</strong>`;
     if (character.members && character.members.length > 0) {
       tooltipContent += `<br/>Members: ${character.members.join(", ")}`;
@@ -59,7 +66,7 @@ export function handleCharacterHoverOn(
  */
 export function handleCharacterHoverOff(
   activeInformation: ActiveInformation,
-  currentInformation: CurrentInformation,
+  currentInformation: CurrentInformation
 ) {
   if (activeInformation.activeLegendType === null) {
     deactivateActiveHighlight(activeInformation, currentInformation);

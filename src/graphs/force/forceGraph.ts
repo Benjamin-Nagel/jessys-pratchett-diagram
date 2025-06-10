@@ -56,7 +56,7 @@ export function createGraph(selector: string) {
     .on("zoom", (event) => {
       g.attr("transform", event.transform);
     });
-  svgContainer.call(zoomBehavior);
+  (svgContainer as unknown as d3.Selection<SVGSVGElement, unknown, null, undefined>).call(zoomBehavior);
 
   const nodes: GraphNode[] = [];
   const links: GraphLink[] = [];
@@ -160,8 +160,8 @@ export function createGraph(selector: string) {
     .force(
       "link",
       d3
-        .forceLink(links)
-        .id((d) => d.id)
+        .forceLink<GraphNode, GraphLink>(links)
+        .id((d: GraphNode) => d.id)
         .distance((d) => {
           if (d.type === "book_serie") return 50;
           if (d.type === "book_character") return 80;
@@ -300,7 +300,6 @@ export function createGraph(selector: string) {
 
   // --- Legenden ---
   function toggleLegendVisibility(
-    legendGroup: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
     contentGroup: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
     toggleButton: d3.Selection<SVGTSpanElement, unknown, HTMLElement, any>
   ) {
@@ -314,8 +313,6 @@ export function createGraph(selector: string) {
     let currentRightY = 80; 
     const padding = 30;
 
-    const leftLegend = svgContainer.select(".left-legend");
-
     const rightSerieLegend = svgContainer.select(".serie-legend");
     if (!rightSerieLegend.empty()) {
       rightSerieLegend.attr(
@@ -323,10 +320,10 @@ export function createGraph(selector: string) {
         `translate(${width - 180}, ${currentRightY})`
       );
       const serieContentHeight =
-        rightSerieLegend.select(".legend-content").node()?.getBBox().height ||
+        (rightSerieLegend.select(".legend-content").node() as SVGGraphicsElement | null)?.getBBox().height ||
         0;
       const serieTitleHeight =
-        rightSerieLegend.select(".legend-title").node()?.getBBox().height || 0;
+        (rightSerieLegend.select(".legend-title").node()as SVGGraphicsElement | null)?.getBBox().height || 0;
       if (
         !rightSerieLegend.select(".legend-content").classed("hidden-content")
       ) {
@@ -429,7 +426,6 @@ export function createGraph(selector: string) {
 
   leftLegendTitle.on("click", function () {
     toggleLegendVisibility(
-      leftLegend,
       leftLegendContent,
       leftLegendToggleButton
     );
@@ -491,7 +487,6 @@ export function createGraph(selector: string) {
 
   serieLegendTitle.on("click", function () {
     toggleLegendVisibility(
-      serieLegendGroup,
       serieLegendContent,
       serieLegendToggleButton
     );
@@ -551,7 +546,6 @@ export function createGraph(selector: string) {
 
   genreLegendTitle.on("click", function () {
     toggleLegendVisibility(
-      genreLegendGroup,
       genreLegendContent,
       genreLegendToggleButton
     );

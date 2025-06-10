@@ -36,7 +36,7 @@ const bookHeight = 60;
 export function drawCharacterLinks(
   characters: RunningCharacter[],
   books: Book[],
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any>,
   activeInformation: ActiveInformation,
   currentInformation: CurrentInformation
 ) {
@@ -225,7 +225,7 @@ function generateCharacterLinks(
 export function drawBookNodes(
   zoomedG: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   books: Book[],
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>
+  tooltip: d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any>
 ) {
   const bookPositions = calculateBookPositions(books);
 

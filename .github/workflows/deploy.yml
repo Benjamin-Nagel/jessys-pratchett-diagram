@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: Build+Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -36,27 +36,16 @@ jobs:
         run: npm ci
       - name: Build with Vite
         run: npm run build -- --mode gh-pages
-      - name: Upload production-ready build files
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-files
-          path: ./dist
-
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Download artifact
-        uses: actions/download-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: production-files
-          path: ./dist
+          # Upload dist folder
+          path: './dist'
+
+      - name: check with ls
+        run: ls -ahlv ./dist/*
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -61,7 +61,7 @@ export function updateRightLegendPositions(
   const estimatedLegendWidth = 200;
 
   const fixedRightLegendX = viewBoxWidth - estimatedLegendWidth - rightMargin;
-  let currentRightY = 30; 
+  let currentRightY = 30;
 
   if (legendContentGroups.series) {
     const parentLegendGroup = d3.select(
@@ -72,12 +72,11 @@ export function updateRightLegendPositions(
       `translate(${fixedRightLegendX}, ${currentRightY})`
     );
 
-    const titleNode = parentLegendGroup
-      .select(".legend-title")
-      .node();
-    const titleBBox = titleNode && "getBBox" in titleNode
-      ? (titleNode as SVGGraphicsElement).getBBox()
-      : undefined;
+    const titleNode = parentLegendGroup.select(".legend-title").node();
+    const titleBBox =
+      titleNode && "getBBox" in titleNode
+        ? (titleNode as SVGGraphicsElement).getBBox()
+        : undefined;
     const titleHeight = titleBBox ? titleBBox.height : 0;
 
     const contentBBox = legendContentGroups.series.node()?.getBBox();
@@ -113,13 +112,18 @@ export function updateRightLegendPositions(
 export function drawCharacterLegend(
   parentSvg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>,
   characters: RunningCharacter[],
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<
+    d3.BaseType | HTMLDivElement,
+    unknown,
+    HTMLElement,
+    any
+  >,
   activeInformation: ActiveInformation,
   currentInformation: CurrentInformation,
   legendContentGroups: LegendContentGroups
 ) {
   const legendOffsetX = 50;
-  const marginTop = 30; 
+  const marginTop = 30;
 
   const legend = parentSvg
     .append("g")
@@ -134,14 +138,17 @@ export function drawCharacterLegend(
     .style("font-size", "14px")
     .style("font-weight", "bold")
     .attr("class", "legend-title");
-  legendTitle
-    .on("click", () =>
-        toggleLegendVisibility(legend, legendTitle, contentGroup, legendContentGroups)
-    );
+  legendTitle.on("click", () =>
+    toggleLegendVisibility(
+      legend,
+      legendTitle,
+      contentGroup,
+      legendContentGroups
+    )
+  );
 
   const contentGroup = legend.append("g").attr("class", "legend-content");
   legendContentGroups.character = contentGroup;
-
 
   let currentLegendY = 20;
   const rowHeight = 20;
@@ -219,8 +226,7 @@ export function drawCharacterLegend(
             currentInformation
           );
         }
-      })
-      ;
+      });
 
     currentLegendY += rowHeight + 5;
   });
@@ -236,12 +242,16 @@ export function drawCharacterLegend(
 export function drawSeriesLegend(
   parentSvg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>,
   seriesColors: { [key in Serie]: string },
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<
+    d3.BaseType | HTMLDivElement,
+    unknown,
+    HTMLElement,
+    any
+  >,
   activeInformation: ActiveInformation,
   currentInformation: CurrentInformation,
   legendContentGroups: LegendContentGroups
-):  d3.Selection<SVGGElement, unknown, HTMLElement, any>
- {
+): d3.Selection<SVGGElement, unknown, HTMLElement, any> {
   const legend = parentSvg.append("g").attr("class", "legend series-legend");
 
   const legendTitle = legend
@@ -254,12 +264,16 @@ export function drawSeriesLegend(
     .attr("class", "legend-title");
 
   legendTitle.on("click", () =>
-    toggleLegendVisibility(legend, legendTitle, contentGroup, legendContentGroups)
+    toggleLegendVisibility(
+      legend,
+      legendTitle,
+      contentGroup,
+      legendContentGroups
+    )
   );
 
   const contentGroup = legend.append("g").attr("class", "legend-content");
   legendContentGroups.series = contentGroup;
-
 
   let currentLegendY = 20;
   const rowHeight = 20;
@@ -294,10 +308,16 @@ export function drawSeriesLegend(
 
     row
       .on("mouseover", function (event, d) {
-        handleSerieHoverOn(event, d as Serie, tooltip,activeInformation,currentInformation);
+        handleSerieHoverOn(
+          event,
+          d as Serie,
+          tooltip,
+          activeInformation,
+          currentInformation
+        );
       })
       .on("mouseout", function () {
-        handleSerieHoverOff(tooltip,activeInformation,currentInformation);
+        handleSerieHoverOff(activeInformation, currentInformation);
       })
       .on("click", function (event, d) {
         event.stopPropagation();
@@ -311,10 +331,15 @@ export function drawSeriesLegend(
           deactivateActiveHighlight(activeInformation, currentInformation);
         } else {
           deactivateActiveHighlight(activeInformation, currentInformation);
-          applySerieHighlight(clickedSerie, true, true, activeInformation, currentInformation);
+          applySerieHighlight(
+            clickedSerie,
+            true,
+            true,
+            activeInformation,
+            currentInformation
+          );
         }
-      })
-      ;
+      });
 
     currentLegendY += rowHeight + 5;
   });
@@ -332,9 +357,12 @@ function applySerieHighlight(
   enable: boolean,
   isClickHighlight: boolean,
   activeInformation: ActiveInformation,
-  currentInformatin: CurrentInformation,
+  currentInformatin: CurrentInformation
 ) {
-  if (!currentInformatin.currentBookGroup || !currentInformatin.currentZoomedG) {
+  if (
+    !currentInformatin.currentBookGroup ||
+    !currentInformatin.currentZoomedG
+  ) {
     console.error("currentBookGroup or currentZoomedG not initialized!");
     return;
   }
@@ -345,8 +373,12 @@ function applySerieHighlight(
   )}`;
 
   if (enable) {
-    currentInformatin.currentZoomedG.selectAll(`path.link`).attr("opacity", 0.05);
-    currentInformatin.currentZoomedG.selectAll(`path.link-pattern`).attr("opacity", 0.05);
+    currentInformatin.currentZoomedG
+      .selectAll(`path.link`)
+      .attr("opacity", 0.05);
+    currentInformatin.currentZoomedG
+      .selectAll(`path.link-pattern`)
+      .attr("opacity", 0.05);
     currentInformatin.currentBookGroup.style("opacity", 0.2);
     d3.selectAll(".legend-item-group").classed(
       "highlighted-legend-item",
@@ -408,9 +440,14 @@ function applySerieHighlight(
 function handleSerieHoverOn(
   event: MouseEvent,
   serie: Serie,
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<
+    d3.BaseType | HTMLDivElement,
+    unknown,
+    HTMLElement,
+    any
+  >,
   activeInformation: ActiveInformation,
-  currentInformation: CurrentInformation,
+  currentInformation: CurrentInformation
 ) {
   if (
     activeInformation.activeLegendType === null ||
@@ -419,7 +456,13 @@ function handleSerieHoverOn(
         .select(`.legend-item-group-serie-${serie.replace(/\s+/g, "-")}`)
         .classed("highlighted-legend-item"))
   ) {
-    applySerieHighlight(serie, true, false,activeInformation, currentInformation);
+    applySerieHighlight(
+      serie,
+      true,
+      false,
+      activeInformation,
+      currentInformation
+    );
     showTooltip(tooltip, `<strong>Serie:</strong> ${serie}`, event);
   }
 }
@@ -429,9 +472,8 @@ function handleSerieHoverOn(
  * @param tooltip The D3 tooltip.
  */
 function handleSerieHoverOff(
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
   activeInformation: ActiveInformation,
-  currentInformation: CurrentInformation,
+  currentInformation: CurrentInformation
 ) {
   if (activeInformation.activeLegendType === null) {
     deactivateActiveHighlight(activeInformation, currentInformation);
@@ -447,10 +489,15 @@ function handleSerieHoverOff(
 export function drawGenreLegend(
   parentSvg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>,
   genres: string[],
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<
+    d3.BaseType | HTMLDivElement,
+    unknown,
+    HTMLElement,
+    any
+  >,
   activeInformation: ActiveInformation,
   currentInformation: CurrentInformation,
-  legendContentGroups: LegendContentGroups,
+  legendContentGroups: LegendContentGroups
 ) {
   const legend = parentSvg.append("g").attr("class", "legend genre-legend");
 
@@ -463,11 +510,17 @@ export function drawGenreLegend(
     .style("font-weight", "bold")
     .attr("class", "legend-title");
 
-  legendTitle.on("click", () => toggleLegendVisibility(legend, legendTitle, contentGroup, legendContentGroups));
+  legendTitle.on("click", () =>
+    toggleLegendVisibility(
+      legend,
+      legendTitle,
+      contentGroup,
+      legendContentGroups
+    )
+  );
 
   const contentGroup = legend.append("g").attr("class", "legend-content");
   legendContentGroups.genre = contentGroup;
-
 
   let currentLegendY = 20;
   const rowHeight = 20;
@@ -505,14 +558,20 @@ export function drawGenreLegend(
 
     row
       .on("mouseover", function (event, d) {
-        handleGenreHoverOn(event, d as Genre, tooltip, activeInformation, currentInformation);
+        handleGenreHoverOn(
+          event,
+          d as Genre,
+          tooltip,
+          activeInformation,
+          currentInformation
+        );
       })
       .on("mouseout", function () {
-        handleGenreHoverOff(tooltip, activeInformation, currentInformation);
+        handleGenreHoverOff(activeInformation, currentInformation);
       })
-      .on("click", function(event, d) {
-        event.stopPropagation(); // Kann nützlich sein
-        
+      .on("click", function (event, d) {
+        event.stopPropagation(); 
+
         const clickedGenre = d as Genre;
         if (
           activeInformation.activeLegendType === "genre" &&
@@ -521,10 +580,15 @@ export function drawGenreLegend(
           deactivateActiveHighlight(activeInformation, currentInformation);
         } else {
           deactivateActiveHighlight(activeInformation, currentInformation);
-          applyGenreHighlight(clickedGenre, true, true, activeInformation, currentInformation);
+          applyGenreHighlight(
+            clickedGenre,
+            true,
+            true,
+            activeInformation,
+            currentInformation
+          );
         }
-      })
-      ;
+      });
 
     currentLegendY += rowHeight + 5;
   });
@@ -541,9 +605,12 @@ function applyGenreHighlight(
   enable: boolean,
   isClickHighlight: boolean,
   activeInformation: ActiveInformation,
-  currentInformatin: CurrentInformation,
+  currentInformatin: CurrentInformation
 ) {
-  if (!currentInformatin.currentBookGroup || !currentInformatin.currentZoomedG) {
+  if (
+    !currentInformatin.currentBookGroup ||
+    !currentInformatin.currentZoomedG
+  ) {
     console.error("currentBookGroup or currentZoomedG not initialized!");
     return;
   }
@@ -554,8 +621,12 @@ function applyGenreHighlight(
   )}`;
 
   if (enable) {
-    currentInformatin.currentZoomedG.selectAll(`path.link`).attr("opacity", 0.05);
-    currentInformatin.currentZoomedG.selectAll(`path.link-pattern`).attr("opacity", 0.05);
+    currentInformatin.currentZoomedG
+      .selectAll(`path.link`)
+      .attr("opacity", 0.05);
+    currentInformatin.currentZoomedG
+      .selectAll(`path.link-pattern`)
+      .attr("opacity", 0.05);
     currentInformatin.currentBookGroup.style("opacity", 0.2);
     d3.selectAll(".legend-item-group").classed(
       "highlighted-legend-item",
@@ -617,9 +688,14 @@ function applyGenreHighlight(
 function handleGenreHoverOn(
   event: MouseEvent,
   genre: Genre,
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltip: d3.Selection<
+    d3.BaseType | HTMLDivElement,
+    unknown,
+    HTMLElement,
+    any
+  >,
   activeInformation: ActiveInformation,
-  currentInformatin: CurrentInformation,
+  currentInformatin: CurrentInformation
 ) {
   if (
     activeInformation.activeLegendType === null ||
@@ -628,7 +704,13 @@ function handleGenreHoverOn(
         .select(`.legend-item-group-genre-${genre.replace(/\s+/g, "-")}`)
         .classed("highlighted-legend-item"))
   ) {
-    applyGenreHighlight(genre, true, false,activeInformation, currentInformatin);
+    applyGenreHighlight(
+      genre,
+      true,
+      false,
+      activeInformation,
+      currentInformatin
+    );
     showTooltip(tooltip, `<strong>Genre:</strong> ${genre}`, event);
   }
 }
@@ -638,9 +720,8 @@ function handleGenreHoverOn(
  * @param tooltip The D3 tooltip.
  */
 function handleGenreHoverOff(
-  tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
   activeInformation: ActiveInformation,
-  currentInformatin: CurrentInformation,
+  currentInformatin: CurrentInformation
 ) {
   if (activeInformation.activeLegendType === null) {
     deactivateActiveHighlight(activeInformation, currentInformatin);

@@ -29,8 +29,8 @@ export function initializeSvgContainer(
     return null;
   }
 
-  const svg = d3
-    .select(selector)
+  const svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any> = d3
+    .select<SVGSVGElement, unknown>(selector)
     .attr("viewBox", `0 0 ${internalWidth} ${internalHeight}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -63,8 +63,8 @@ export function initializeSvgContainer(
  * Creates and appends a global D3 tooltip div to the body.
  * @returns A D3 selection for the tooltip div.
  */
-export function createTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
-  let tooltip = d3.select("body").select(".tooltip");
+export function createTooltip(): d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any> {
+  let tooltip: d3.Selection<any, unknown, HTMLElement, any> = d3.select("body").select(".tooltip");
   if (tooltip.empty()) { // Only create if it doesn't already exist
     tooltip = d3
       .select("body")
@@ -82,9 +82,9 @@ export function createTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLEleme
  * @param event The D3 event object.
  */
 export function showTooltip(
-  tooltipD3Selection: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+  tooltipD3Selection: d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any>,
   content: string,
-  event: d3.D3E_BaseType 
+  event: MouseEvent
 ) {
   tooltipD3Selection
     .html(content)
@@ -100,7 +100,7 @@ export function showTooltip(
  * @param tooltipD3Selection The D3 selection of the tooltip.
  */
 export function hideTooltip(
-  tooltipD3Selection: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>
+  tooltipD3Selection: d3.Selection<d3.BaseType | HTMLDivElement, unknown, HTMLElement, any>
 ) {
   tooltipD3Selection.transition().duration(500).style("opacity", 0);
 }
